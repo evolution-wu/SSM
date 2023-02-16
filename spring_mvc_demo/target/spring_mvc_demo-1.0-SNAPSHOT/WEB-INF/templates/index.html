@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>首页</title>
+</head>
+<body>
+<h1>index.html</h1>
+<a th:href="@{/hello}">测试RequestMapping注解所标识的位置</a><br>
+<a th:href="@{/abc}">测试RequestMapping注解所标识的位置</a>
+<form th:action="@{/hello}">
+    <input type="submit" value="测试@RequestMapping注解的method属性">
+</form>
+<form th:action="@{/param/pojo}" method="post">
+    用户名：<input type="text" name="username">
+    密码：<input type="password" name="password">
+    <input type="submit" value="登录">
+</form>
+<hr>
+<a th:href="@{/test/mav}">测试通过ModelAndView请求共享数据</a><br>
+<a th:href="@{/test/model}">测试通过Model请求共享数据</a><br>
+<a th:href="@{/test/modelmap}">测试通过ModelMap请求共享数据</a><br>
+<a th:href="@{/test/map}">测试通过Map请求共享数据</a><br>
+<a th:href="@{/test/session}">测试通过session会话域请求共享数据</a><br>
+<a th:href="@{/test/application}">测试通过application应用域请求共享数据</a><br>
+<hr>
+<a th:href="@{/test/view/thymeleaf}">测试springmvc的视图thymleaf</a><br>
+<a th:href="@{/test/view/forward}">测试springmvc的视图InternalResourceView</a><br>
+<a th:href="@{/test/view/redirect}">测试springmvc的视图RedirectView</a><br>
+</body>
+</html>

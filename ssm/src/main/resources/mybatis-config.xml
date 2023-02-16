@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+
+    <!--
+     MyBatis核心配置文件中，标签的顺序：
+     properties?,settings?,typeAliases?,typeHandlers?,
+     objectFactory?,objectWrapperFactory?,reflectorFactory?,
+     plugins?,environments?,databaseIdProvider?,mappers?
+     -->
+
+    <!--配置连接数据库
+    environments:设置一个具体连接数据库的环境
+    属性：id 唯一标识，不能重复
+    default 默认
+    transactionManager:设置事务管理器
+    属性：type 设置事务管理的方式
+    type=“JDBC/MANAGED"
+    JDBC 数据库连接
+    MANAGED：被管理，例如Spring
+
+    dataSource:数据源
+    属性：type:设置数据源的类型
+    POOLED/UNPOLLED/JNDI
+    使用数据库连接池
+    表示不使用数据库连接池
+    表示来使用上下文中的数据源
+    -->
+    <settings>
+        <!--将下划线映射为驼峰-->
+        <setting name="mapUnderscoreToCamelCase" value="true"/>
+    </settings>
+    <plugins>
+        <!--设置分页插件-->
+        <plugin interceptor="com.github.pagehelper.PageInterceptor"></plugin>
+    </plugins>
+
+</configuration>

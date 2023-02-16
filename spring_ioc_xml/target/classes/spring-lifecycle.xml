@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <!-- 使用init-method属性指定初始化方法 -->
+    <!-- 使用destroy-method属性指定销毁方法 -->
+    <!--若bean的作用域为单例时候，生命周期的前三个步骤会在获取IOC容器时执行
+        若bean的作用域为多例时候，生命周期的前三个步骤会在获取bean时执行
+    -->
+    <bean id="User" class="com.atiguigu.spring.pojo.User" init-method="initMethod" destroy-method="destroyMethod">
+        <property name="id" value="1"></property>
+        <property name="username" value="wuyichuan"></property>
+        <property name="age" value="1"></property>
+        <property name="password" value="123456"></property>
+    </bean>
+    <bean id="myBeanProcessor" class="com.atiguigu.spring.process.MyBeanProcessor"></bean>
+</beans>

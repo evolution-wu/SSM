@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:util="http://www.springframework.org/schema/util"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/util https://www.springframework.org/schema/util/spring-util.xsd">
+    <bean id="studentOne" class="com.atiguigu.spring.pojo.Student"></bean>
+
+    <bean id="studentTwo" class="com.atiguigu.spring.pojo.Student">
+        <!--依赖注入setter注入-->
+        <!-- property标签：通过组件类的setXxx()方法给组件对象设置属性 -->
+        <!-- name属性：指定属性名（这个属性名是getXxx()、setXxx()方法定义的，和成员变量无关）-->
+        <!-- value属性：指定属性值 -->
+        <property name="sid" value="1001"></property>
+        <property name="sname" value="wuyichuan"></property>
+        <property name="age" value="22"></property>
+        <property name="gender" value="男"></property>
+    </bean>
+
+    <bean id="studentThree" class="com.atiguigu.spring.pojo.Student">
+        <!--constructor-arg标签还有两个属性可以进一步描述构造器参数：
+        有参构造器，所以代表一定要有有参构造函数,,记得顺序
+        - index属性：指定参数所在位置的索引（从0开始）
+        - name属性：指定参数名-->
+    <constructor-arg value="1002"></constructor-arg>
+    <constructor-arg value="李四"></constructor-arg>
+        <constructor-arg value="女"></constructor-arg>
+    <constructor-arg value="33"></constructor-arg>
+    </bean>
+
+    <bean id="studentFour" class="com.atiguigu.spring.pojo.Student">
+        <property name="sid" value="1003"></property>
+        <property name="sname" >
+            <null/>
+        </property>
+        <property name="age" value="34"></property>
+        <property name="gender">
+            <!-- 解决方案二：使用CDATA节 -->
+            <!-- CDATA中的C代表Character，是文本、字符的含义，CDATA就表示纯文本数据 -->
+            <!-- XML解析器看到CDATA节就知道这里是纯文本，就不会当作XML标签或属性来解析 -->
+            <!-- 所以CDATA节中写什么符号都随意 -->
+            <value><![CDATA[a < b]]></value>
+        </property>
+     </bean>
+
+
+    <bean id="studentFive" class="com.atiguigu.spring.pojo.Student">
+        <property name="sid" value="1004"></property>
+        <property name="sname" value="wuyichuan"></property>
+        <property name="age" value="22"></property>
+        <property name="gender" value="男"></property>
+        <!-- ref属性：引用IOC容器中某个bean的id，将所对应的bean为属性赋值 -->
+        <property name="clazz" ref="clazzOne"></property>
+
+    </bean>
+
+    <bean id="clazzOne" class="com.atiguigu.spring.pojo.Clazz">
+        <property name="cid" value="1111"></property>
+        <property name="cname" value="财源滚滚班"></property>
+        <property name="students" ref="studentList">
+           <!-- <list>
+                <ref bean="studentOne"></ref>
+                <ref bean="studentTwo"></ref>
+                <ref bean="studentThree"></ref>
+            </list>-->
+        </property>
+    </bean>
+
+    <bean id="studentSix" class="com.atiguigu.spring.pojo.Student">
+        <property name="sid" value="1004"></property>
+        <property name="sname" value="wuyichuan"></property>
+        <property name="age" value="22"></property>
+        <property name="gender" value="男"></property>
+        <!-- ref属性：引用IOC容器中某个bean的id，将所对应的bean为属性赋值 -->
+        <property name="clazz">
+            <bean id="clazzInner" class="com.atiguigu.spring.pojo.Clazz">
+                <property name="cid" value="22222"></property>
+                <property name="cname" value="zuiqiangban"></property>
+            </bean>
+        </property>
+        <property name="hooby">
+            <array>
+                <value>唱</value>
+                <value>跳</value>
+                <value>rap</value>
+                <value>篮球</value>
+            </array>
+        </property>
+        <property name="teacherMap" ref="teachermap">
+            <!--<map>
+            <entry  key="10086" value-ref="teacherOne"></entry>
+            <entry  key="10087" value-ref="teacherTwo"></entry>
+            </map>-->
+        </property>
+    </bean>
+
+    <bean id="teacherOne" class = "com.atiguigu.spring.pojo.Teacher">
+        <property name="tid" value="10086"></property>
+        <property name="tname" value="sunsheng"></property>
+    </bean>
+    <bean id="teacherTwo" class = "com.atiguigu.spring.pojo.Teacher">
+        <property name="tid" value="10087"></property>
+        <property name="tname" value="daoge"></property>
+    </bean>
+
+    <!--配置一个集合类型的map，需要使用tils的约束-->
+    <util:list id="studentList">
+        <ref bean="studentOne"></ref>
+        <ref bean="studentTwo"></ref>
+        <ref bean="studentThree"></ref>
+    </util:list>
+
+    <util:map id="teachermap">
+        <entry key="10086" value-ref="teacherOne"></entry>
+        <entry key="10087" value-ref="teacherTwo"></entry>
+    </util:map>
+
+    <bean id="studentSeven" class="com.atiguigu.spring.pojo.Student"
+          p:sid="1006" p:sname="小明"  p:teacherMap-ref="teachermap"/>
+
+</beans>

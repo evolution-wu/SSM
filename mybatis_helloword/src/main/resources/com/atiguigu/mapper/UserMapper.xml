@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.atiguigu.mapper.UserMapper">
+
+    <!--mapper接口和映射文件要保证一致，
+    1、mapper接口的全类名要与namespace一致
+    2、mapper接口中的方法名要与映射文件中的id名一致
+    -->
+
+    <!--int insetUser()-->
+    <insert id="insetUser">
+        insert into t_user values (null,'admin','123456',20,'男','12345@qq.com')
+    </insert>
+
+
+    <!--void updateUser()-->
+    <update id="updateUser">
+        update t_user set username='root',password='88888888' where id = 3
+    </update>
+
+    <!--void deleteUser();-->
+    <delete id="deleteUser">
+        delete from t_user where id = 2
+    </delete>
+
+    <!-- User getUserByID();-->
+    <!--
+    resulttype 设置结果类型，即就是查询到的数据要转换的java数据类型
+    resultmap 自定义映射，处理一对多或多对一的映射关系
+    -->
+    <select id="getUserByID" resultType="com.atiguigu.pojo.User">
+        select * from t_user where id = 2
+    </select>
+
+    <!--List<User> getAllUser();-->
+    <select id="getAllUser" resultType="com.atiguigu.pojo.User">
+        select * from t_user
+    </select>
+
+
+</mapper>

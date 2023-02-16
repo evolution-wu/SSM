@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--mapper namespace="org.mybatis.example.BlogMapper"-->
+<mapper namespace="com.atiguigu.mapper.EmpMapper">
+    <!--若字段名和实体类中的属性名不一致
+    字段名和属性名不一致的情况时候，如何处理映射关系
+    1、为查询的字段设置别名，和属性名保持一致
+    2、当字符字段符合Mysql的要求和使用，而属性符合java的要求来使用驼峰
+    而可以在mybatis的核心配置文件中设置一个全局配置，可以自动将下划线映射程驼峰
+    3、resultMap：设置自定义映射
+    属性：
+    id：表示自定义映射的唯一标识
+    type：查询的数据要映射的实体类的类型
+    子标签：
+    id：设置主键的映射关系
+    result：设置普通字段的映射关系
+    association：设置多对一的映射关系
+
+    collection：设置一对多的映射关系
+    属性：
+    property：设置映射关系中实体类中的属性名
+    column：设置映射关系中表中的字段名
+    -->
+    <resultMap id="empResultMap" type="Emp">
+        <id column="emp_id" property="empId"></id>
+        <result column="emp_name" property="empName"></result>
+        <result column="age" property="age"></result>
+        <result column="gender" property="gender"></result>
+
+    </resultMap>
+
+    <resultMap id="empAndDeptResultMap0ne" type="Emp">
+        <id column="emp_id" property="empId"></id>
+        <result column="emp_name" property="empName"></result>
+        <result column="age" property="age"></result>
+        <result column="gender" property="gender"></result>
+        <result column="dept_id" property="dept.deptId"></result>
+        <result column="dept_name" property="dept.deptName"></result>
+    </resultMap>
+
+    <resultMap id="empAndDeptResultMap" type="Emp">
+        <id column="emp_id" property="empId"></id>
+        <result column="emp_name" property="empName"></result>
+        <result column="age" property="age"></result>
+        <result column="gender" property="gender"></result>
+        <association property="dept" javaType="Dept">
+            <!--
+            association:处理一对多的映射关系
+            property:设置需要处理映射关系的属性的属性名
+            javaType:设置要处理的属性的类型
+            -->
+            <id column="dept_id" property="deptId"></id>
+            <result column="dept_name" property="deptName"></result>
+        </association>
+    </resultMap>
+
+    <resultMap id="empAndDeptByStepResultMap" type="Emp">
+        <id column="emp_id" property="empId"></id>
+        <result column="emp_name" property="empName"></result>
+        <result column="age" property="age"></result>
+        <result column="gender" property="gender"></result>
+        <association property="dept" select="com.atiguigu.mapper.DeptMapper.getgetEmpDeptByStepTwo" column="dept_id">
+            <!--
+                    select：设置分步查询，查询某个属性的值的sql的唯一标识（namespace.sqlId）
+                    column：将sql以及查询结果中的某个字段设置为分步查询的条件
+             -->
+        </association>
+    </resultMap>
+
+    <!--Emp getEmpById(@Param("empid") Integer empId);-->
+
+    <select id="getEmpById" resultMap="empResultMap">
+        <!--select emp_id empid,emp_name empname,age,gender from t_emp where emp_id=#{empid}-->
+        select * from t_emp where emp_id=#{empid}
+    </select>
+
+
+    <!--Emp getEpAndDeptEmpId(@Param("empid") Integer empId);-->
+    <select id="getEpAndDeptEmpId" resultMap="empAndDeptResultMap">
+        select t_emp.*,t_dept.*
+        from t_emp
+        left join t_dept
+        on t_emp.dept_id = t_dept.dept_id
+        where t_emp.emp_id = #{empid}
+    </select>
+
+
+
+    <select id="getEmpByIdold" resultType="Emp">
+        <!--select emp_id empid,emp_name empname,age,gender from t_emp where emp_id=#{empid}-->
+        select * from t_emp where emp_id=#{empid}
+    </select>
+
+    <!--Emp getEmpByStepOne(@Param("empid") int empId);-->
+    <select id="getEmpByStepOne" resultMap="empAndDeptByStepResultMap">
+        select * from t_emp where emp_id=#{empid}
+    </select>
+
+    <!--List<Emp> getDeptAndEmpByStepTwo(@Param("deptId") int deptId);-->
+    <select id="getDeptAndEmpByStepTwo" resultType="Emp">
+        select  * from t_emp where dept_id =#{deptId}
+   </select>
+</mapper>

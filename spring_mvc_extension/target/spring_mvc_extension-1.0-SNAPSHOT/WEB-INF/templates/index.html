@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>首页</title>
+</head>
+<body>
+<div id="app">
+    <h1>index.html</h1>
+    <a th:href="@{/test/hello}">测试拦截器</a>
+</div>
+
+<script type="text/javascript" th:src="@{/js/vue.js}"></script>
+<script type="text/javascript" th:src="@{/js/axios.min.js}"></script>
+<script type="text/javascript">
+    //axios({
+    //url:"",  请求路径
+    //    method:"",  请求方式
+    //   以name=value的方式的发送请求参数，不管使用的请求方式是get还是post，请求的参数都会被拼接到请求地址上面
+    //此种方式的请求参数可以通过request，getparameter获取
+    //    params:{},
+    //    data:{}    以json请求参数，请求参数会被保存到请求报文的请求体传输到服务器，此钟方式的请求不可以通过request，getparameter获取
+    //    }).then(response=>{
+    //     console.log(response.data);
+    //  });
+    var vue = new Vue({
+        el:"#app",
+        methods:{
+         testAjax(){
+             axios.post(
+                 "/SpringMVC/test/ajax?id=1001",
+                 {username:"admin",password:"123456"}).then(response=>{
+                     console.log(response.data)
+             });
+         },
+        testRequestBody(){
+             axios.post(
+                 "/SpringMVC/test/RequestBody/json",
+                 {username:"admin",password:"123456",age:23,gender:"男"}
+             ).then(response=>{
+                 console.log(response.data);
+             });
+        },
+        testResponseBody(){
+             axios.post("/SpringMVC/test/ResponseBody/json").then(response=>{
+                 console.log(response.data);
+             });
+        }
+        }
+    });
+</script>
+
+</body>
+</html>

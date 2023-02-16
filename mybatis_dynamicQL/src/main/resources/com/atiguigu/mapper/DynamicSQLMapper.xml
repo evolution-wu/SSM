@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--mapper namespace="org.mybatis.example.BlogMapper"-->
+<mapper namespace="com.atiguigu.mapper.DynamicSQLMapper">
+   <!--List<Emp> getEmpByCondition(Emp emp);-->
+    <!--Mybatis框架的动态SQL技术是一种根据特定条件动态拼装SQL语句的功能，它存在的意义是为了解决 拼接SQL语句字符串时的痛点问题。
+    if标签可通过test属性的表达式进行判断，若表达式的结果为true，则标签中的内容会执行；反之标签中的内容不会执行-->
+    <!--where和if一般结合使用：
+    a>若where标签中的if条件都不满足，则where标签没有任何功能，即不会添加where关键字
+    b>若where标签中的if条件满足，则where标签会自动添加where关键字，并将条件最前方多余的and去掉
+    注意：where标签不能去掉条件最后多余的and-->
+
+    <select id="getEmpByConditionOne" resultType="Emp">
+        select * from t_emp where 1=1
+        <if test="empName != null and empName != '' ">
+            emp_name = #{empName}
+        </if>
+        <if test="age != '' and age != null">
+            and age = #{age}
+        </if>
+        <if test="gender != '' and gender != null">
+            and gender = #{gender}
+        </if>
+    </select>
+
+    <select id="getEmpByCondition" resultType="Emp">
+        select * from t_emp
+            <trim prefix="where" suffixOverrides="and">
+                <if test="empName != null and empName != '' ">
+                    emp_name = #{empName} and
+                </if>
+                <if test="age != '' and age != null">
+                    age = #{age} and
+                </if>
+                <if test="gender != '' and gender != null">
+                   gender = #{gender}
+                </if>
+            </trim>
+    </select>
+
+</mapper>

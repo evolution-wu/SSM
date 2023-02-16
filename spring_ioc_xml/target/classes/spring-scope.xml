@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <!--在Spring中可以通过配置bean标签的scope属性来指定bean的作用域范围，各取值含义参加下表：-->
+    <bean id="student" class="com.atiguigu.spring.pojo.Student" scope="prototype">
+        <property name="sid" value="1001"></property>
+        <property name="sname" value="wuyichuan"></property>
+    </bean>
+</beans>
